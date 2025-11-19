@@ -1,0 +1,111 @@
+====================================================================
+           READY TO PUSH TO GITHUB - QUICK COMMANDS
+====================================================================
+
+✅ Your project is committed and ready to push!
+
+====================================================================
+STEP 1: Create a Repository on GitHub
+====================================================================
+
+1. Go to: https://github.com/new
+
+2. Repository name: airlines-etl-pipeline
+
+3. Description: ETL pipeline for airlines flight data with INR to USD conversion
+
+4. Choose: Public or Private
+
+5. IMPORTANT: Do NOT initialize with README, .gitignore, or license
+   (we already have these!)
+
+6. Click "Create repository"
+
+====================================================================
+STEP 2: Copy Your Repository URL
+====================================================================
+
+After creating, GitHub will show you a URL like:
+https://github.com/YOUR_USERNAME/airlines-etl-pipeline.git
+
+====================================================================
+STEP 3: Run These Commands
+====================================================================
+
+Copy and paste these commands (replace YOUR_USERNAME with your actual username):
+
+cd "/Users/aaronstaehely/Documents/Sabermetrics work/ETL Project"
+git remote add origin https://github.com/YOUR_USERNAME/airlines-etl-pipeline.git
+git push -u origin main
+
+====================================================================
+EXAMPLE (Replace aaronstaehely with your GitHub username):
+====================================================================
+
+cd "/Users/aaronstaehely/Documents/Sabermetrics work/ETL Project"
+git remote add origin https://github.com/aaronstaehely/airlines-etl-pipeline.git
+git push -u origin main
+
+====================================================================
+AUTHENTICATION
+====================================================================
+
+If prompted for credentials:
+- Username: Your GitHub username
+- Password: Use a Personal Access Token (not your password)
+
+To get a token:
+1. Go to: https://github.com/settings/tokens
+2. Click "Generate new token (classic)"
+3. Select scope: "repo"
+4. Copy the token and use it as your password
+
+====================================================================
+WHAT WILL BE PUSHED (12 files):
+====================================================================
+
+✅ etl_pipeline.py - Main ETL script
+✅ etl_demo.ipynb - Jupyter notebook
+✅ visualize_results.py - Visualization script
+✅ test_etl.py - Test script
+✅ requirements.txt - Dependencies
+✅ run_etl.sh - Bash runner
+✅ README.md - Main documentation
+✅ QUICKSTART.md - Quick start guide
+✅ PROJECT_OVERVIEW.md - Project overview
+✅ EXAMPLE_OUTPUT.md - Example output
+✅ INDEX.md - File navigation
+✅ .gitignore - Git ignore rules
+
+====================================================================
+WHAT WILL NOT BE PUSHED:
+====================================================================
+
+❌ airlines_flights_data.csv - Too large (30MB+)
+❌ Generated output files
+❌ Python cache files
+
+Note: Users can run the test script or add their own data file.
+
+====================================================================
+AFTER PUSHING
+====================================================================
+
+Your repository will be at:
+https://github.com/YOUR_USERNAME/airlines-etl-pipeline
+
+People can clone it with:
+git clone https://github.com/YOUR_USERNAME/airlines-etl-pipeline.git
+
+====================================================================
+FOR MORE DETAILS
+====================================================================
+
+See GITHUB_SETUP.md for comprehensive instructions including:
+- SSH authentication
+- GitHub CLI usage
+- Adding data file to releases
+- Future updates
+
+====================================================================
+
