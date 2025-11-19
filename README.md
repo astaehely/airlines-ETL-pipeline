@@ -14,6 +14,25 @@ This ETL (Extract, Transform, Load) pipeline processes airlines flight data and 
   - Saves transformed data to a new CSV file
   - Creates a detailed summary report
 
+## 📁 Project Structure
+
+```
+📦 airlines-ETL-pipeline/
+├── 📓 etl_demo.ipynb          # Interactive Jupyter notebook
+├── 📄 README.md               # This file
+├── 📄 requirements.txt        # Python dependencies
+├── 📂 src/                    # Source code
+│   ├── etl_pipeline.py        # Main ETL script
+│   ├── visualize_results.py   # Visualization script
+│   ├── test_etl.py            # Test suite
+│   └── run_etl.sh             # Bash runner
+└── 📂 docs/                   # Documentation
+    ├── QUICKSTART.md
+    ├── PROJECT_OVERVIEW.md
+    ├── KAGGLE_SETUP.md
+    └── ...more guides
+```
+
 ## Installation
 
 1. Install required dependencies:
@@ -44,7 +63,7 @@ python etl_pipeline.py
 Simply run the ETL pipeline with the `--kaggle` flag:
 
 ```bash
-python etl_pipeline.py --kaggle
+python src/etl_pipeline.py --kaggle
 ```
 
 This will:
@@ -56,7 +75,7 @@ This will:
 ### Basic Usage with Local File
 
 ```bash
-python etl_pipeline.py
+python src/etl_pipeline.py
 ```
 
 This will:
