@@ -21,11 +21,39 @@ This ETL (Extract, Transform, Load) pipeline processes airlines flight data and 
 pip install -r requirements.txt
 ```
 
+## Data Source
+
+You can load data in two ways:
+
+### Option 1: Kaggle API (Recommended)
+```bash
+python etl_pipeline.py --kaggle
+```
+This automatically downloads the latest data from Kaggle's airlines-flights-data dataset.
+
+### Option 2: Local File
+Place `airlines_flights_data.csv` in the project directory and run:
+```bash
+python etl_pipeline.py
+```
+
 ## Usage
 
-### Basic Usage
+### Basic Usage with Kaggle API
 
-Simply run the ETL pipeline:
+Simply run the ETL pipeline with the `--kaggle` flag:
+
+```bash
+python etl_pipeline.py --kaggle
+```
+
+This will:
+- Fetch data from Kaggle (rohitgrewal/airlines-flights-data)
+- Convert prices from INR to USD using current exchange rates
+- Output to `airlines_flights_data_usd.csv`
+- Generate a summary report in `airlines_flights_data_usd_summary.txt`
+
+### Basic Usage with Local File
 
 ```bash
 python etl_pipeline.py
@@ -43,6 +71,13 @@ You can also use the ETL pipeline programmatically in your own scripts:
 
 ```python
 from etl_pipeline import FlightDataETL
+
+# Use with Kaggle API
+etl = FlightDataETL(
+    output_file='airlines_flights_data_usd.csv',
+    use_kaggle=True
+)
+etl.run()
 
 # Use with custom file paths
 etl = FlightDataETL(

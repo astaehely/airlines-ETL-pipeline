@@ -13,12 +13,23 @@ This ETL pipeline converts flight prices from **Indian Rupees (INR)** to **US Do
 
 ## Quick Start
 
-### Option 1: Run the Python Script (Recommended)
+### Option 1: Run with Kaggle API (Recommended)
+
+```bash
+# Install dependencies
+pip install pandas requests kagglehub
+
+# Run the ETL pipeline with Kaggle data
+python etl_pipeline.py --kaggle
+```
+
+### Option 2: Run with Local File
 
 ```bash
 # Install dependencies
 pip install pandas requests
 
+# Make sure airlines_flights_data.csv is in the directory
 # Run the ETL pipeline
 python etl_pipeline.py
 ```

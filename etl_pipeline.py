@@ -17,21 +17,48 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def load_data_from_kaggle():
+    """
+    Load data from Kaggle using kagglehub API
+    """
+    try:
+        import kagglehub
+        from kagglehub import KaggleDatasetAdapter
+        
+        logger.info("Loading data from Kaggle...")
+        df = kagglehub.load_dataset(
+            KaggleDatasetAdapter.PANDAS,
+            "rohitgrewal/airlines-flights-data",
+            "",
+        )
+        logger.info(f"Successfully loaded {len(df)} records from Kaggle")
+        return df
+    except ImportError:
+        logger.error("kagglehub not installed. Install with: pip install kagglehub")
+        return None
+    except Exception as e:
+        logger.error(f"Failed to load data from Kaggle: {e}")
+        return None
+
+
 class FlightDataETL:
     """ETL Pipeline for flight data with currency conversion"""
     
-    def __init__(self, input_file, output_file, exchange_rate=None):
+    def __init__(self, input_file=None, output_file='airlines_flights_data_usd.csv', 
+                 exchange_rate=None, use_kaggle=False):
         """
         Initialize ETL pipeline
         
         Args:
-            input_file (str): Path to input CSV file
+            input_file (str): Path to input CSV file (optional if use_kaggle=True)
             output_file (str): Path to output CSV file
             exchange_rate (float): Optional fixed exchange rate (INR to USD)
+            use_kaggle (bool): If True, load data from Kaggle API instead of local file
         """
         self.input_file = input_file
         self.output_file = output_file
         self.exchange_rate = exchange_rate
+        self.use_kaggle = use_kaggle
         self.data = None
         
     def get_exchange_rate(self):
@@ -63,11 +90,21 @@ class FlightDataETL:
     
     def extract(self):
         """
-        Extract: Read data from CSV file
+        Extract: Read data from CSV file or Kaggle API
         """
-        logger.info(f"Extracting data from {self.input_file}...")
         try:
-            self.data = pd.read_csv(self.input_file)
+            if self.use_kaggle:
+                logger.info("Extracting data from Kaggle API...")
+                self.data = load_data_from_kaggle()
+                if self.data is None:
+                    return False
+            else:
+                if not self.input_file:
+                    logger.error("No input file specified and use_kaggle=False")
+                    return False
+                logger.info(f"Extracting data from {self.input_file}...")
+                self.data = pd.read_csv(self.input_file)
+            
             logger.info(f"Successfully extracted {len(self.data)} records")
             logger.info(f"Columns: {list(self.data.columns)}")
             return True
@@ -240,22 +277,41 @@ class FlightDataETL:
 
 def main():
     """Main execution function"""
-    # Define file paths
-    input_file = 'airlines_flights_data.csv'
-    output_file = 'airlines_flights_data_usd.csv'
+    import sys
     
-    # Initialize and run ETL pipeline
-    etl = FlightDataETL(input_file, output_file)
+    # Check if user wants to use Kaggle API
+    use_kaggle = '--kaggle' in sys.argv or '-k' in sys.argv
+    
+    if use_kaggle:
+        print("Using Kaggle API to fetch data...")
+        print("Note: Make sure you have kagglehub installed: pip install kagglehub")
+        print()
+        # Initialize and run ETL pipeline with Kaggle
+        etl = FlightDataETL(
+            output_file='airlines_flights_data_usd.csv',
+            use_kaggle=True
+        )
+    else:
+        # Use local file
+        input_file = 'airlines_flights_data.csv'
+        output_file = 'airlines_flights_data_usd.csv'
+        etl = FlightDataETL(input_file, output_file)
+    
     success = etl.run()
     
     if success:
         print("\n" + "="*60)
         print("ETL PROCESS COMPLETED SUCCESSFULLY!")
         print("="*60)
-        print(f"✓ Input file:  {input_file}")
-        print(f"✓ Output file: {output_file}")
-        print(f"✓ Summary:     {output_file.replace('.csv', '_summary.txt')}")
+        if use_kaggle:
+            print(f"✓ Data source: Kaggle API (rohitgrewal/airlines-flights-data)")
+        else:
+            print(f"✓ Input file:  {etl.input_file}")
+        print(f"✓ Output file: {etl.output_file}")
+        print(f"✓ Summary:     {etl.output_file.replace('.csv', '_summary.txt')}")
         print("="*60)
+        print("\nTip: Use --kaggle or -k flag to load data from Kaggle API")
+        print("     python etl_pipeline.py --kaggle")
     else:
         print("\nETL process failed. Check logs for details.")
 
